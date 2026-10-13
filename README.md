@@ -1,52 +1,41 @@
 # Halloween Price Lab
 
-An offline classroom activity for seventh graders: choose a ticket price, watch guests move through a Halloween park, and explore the trade-off between profit and guest satisfaction.
+## Current version — October 13, 2026
 
-## Run the activity
+The current activity combines **the fullscreen animation from `Halloween_Teaching_Kit.zip` supplied by ReginaJin168 on October 13, 2026** with the final profit-and-satisfaction two-curve plot. The original simulation engine is unchanged.
 
-Download the repository and open **`halloween_simulator.html`** in a browser. No installation or sign-in is needed. Keep the `halloween_simulator` folder together if opening its editable `ui-template.html` instead.
+**Start here:** download the repository and open **`halloween_simulator.html`** in your browser. It works offline; no installation or sign-in is required. This is the merged classroom version.
+
+Source ZIP SHA-256 (before merging the plot): `98e7b185ac8552e5833c7367b5d1eb300e619aaff88ffa9a83ef8d3a835c2436`
+
+## Classroom activity
 
 - Choose a whole-dollar ticket price from $1 to $100.
-- Play, pause, replay, or scrub the animated night. Guests walk, queue, visit activities, and rest.
-- Compare the same 1,000 simulated nights at each price.
-- At the end, reveal the two-curve plot: ticket price on the horizontal axis, average profit on the left axis, and guest satisfaction on the right axis.
-- Find the highest average profit among prices with **average satisfaction at least 90/100**.
+- Play, pause, replay, change speed, or view the Halloween map in fullscreen.
+- Observe visitors walking, queueing, completing activities, and resting.
+- Compare profit and guest experience over the same 1,000 simulated nights.
+- Adjust the ticket price and discuss the trade-off between earnings and experience.
+- Reveal the final plot: ticket price on the horizontal axis, profit on the left axis, satisfaction on the right. The highest-profit qualifying price has average satisfaction at least 90/100. This is not a guarantee for every person or night.
 
-## Classroom assumptions
+See [START_HERE.txt](START_HERE.txt) for the latest classroom instructions and [model notes](halloween_simulator/model_notes.md) for assumptions. This is a fictional classroom simulation, not a real park forecast.
 
-This is a fictional teaching model, not a real park forecast. The schematic map and walking distances affect simulated journeys. Satisfaction starts at 100 and loses 0.8 points per minute waiting and 25 points per unfinished activity, with a minimum of zero. It does not measure ticket affordability or actual survey opinions.
+## Editable source
 
-Profit is averaged per night; satisfaction is averaged across admitted guests. An average of 90 does **not** mean every guest or every night scores 90. With no guests, satisfaction is unavailable rather than 100. The two curves use different units; their intersection has no special meaning.
-
-See [the classroom instructions](START_HERE.txt), [the final-plot notes](FINAL_PLOT_README.txt), and [the model documentation](halloween_simulator/model_notes.md).
-
-## Edit and verify
-
-Node.js is needed only for development, not for playing the activity.
+The `halloween_simulator/` folder contains the merged editable source. Use Node.js for development:
 
 ```sh
 node halloween_simulator/tests.cjs
 node halloween_simulator/page-tests.cjs
 node halloween_simulator/finale-tests.cjs
-```
-
-Edit `halloween_simulator/ui-template.html` for the main interface and `finale.js` / `finale.css` for the final plot. Rebuild the standalone page with:
-
-```sh
 node halloween_simulator/build.cjs
 ```
 
-After changing `engine.js`, regenerate the 100-price comparison before building:
+The build creates the standalone `halloween_simulator.html`. After changing the engine, regenerate comparison data with `node halloween_simulator/build-finale.cjs` before building. Both the template (with its folder intact) and standalone page can run the animation.
 
-```sh
-node halloween_simulator/build-finale.cjs
-node halloween_simulator/build.cjs
-```
+## Earlier prototype files
 
-The build rejects stale final-plot data when the engine changes. Commit both editable sources and the regenerated standalone page.
+`animation-restored.png` shows the earlier non-fullscreen layout. The current executable includes the latest fullscreen presentation and the final two-curve plot. Earlier work remains recoverable in commit history.
 
-## Team workflow
+## Team collaboration
 
-Use a branch for changes, run the tests, and open a pull request for teammates to review. Repository collaborators need to accept their GitHub invitations before they can push.
-
-For genuinely shared commits, use each contributor's agreed name and GitHub-associated commit email in `Co-authored-by` trailers. Collaboration access and commit authorship are separate: being invited to a repository does not automatically add co-author credit.
+Use branches and pull requests to review changes. Teammates must accept repository collaborator invitations before they can push. Invitations and co-author attribution are pending the teammates' GitHub usernames and agreed author names/commit emails. No teammate attribution has been invented.

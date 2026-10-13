@@ -1,0 +1,5 @@
+[
+  {"name": "Low ticket price", "price": 5},
+  {"name": "Starting ticket price", "price": 20},
+  {"name": "High ticket price", "price": 75}
+]

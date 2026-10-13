@@ -1,0 +1,76 @@
+{
+  "version": "2.0-spatial",
+  "seed": "classroom-2026",
+  "runs": 1000,
+  "plans": [
+    {
+      "plan": {
+        "name": "Low ticket price",
+        "price": 5
+      },
+      "summary": {
+        "runs": 1000,
+        "avgProfit": 67.885,
+        "avgRevenue": 1867.885,
+        "avgFixedCost": 1800,
+        "avgDemand": 453.232,
+        "avgAdmitted": 373.577,
+        "avgTurnedAway": 79.655,
+        "avgCompletedBoth": 164.041,
+        "avgExperience": 52.40313812134712,
+        "meanNightExperience": 54.027860274538355,
+        "completionRate": 0.4391089387194608,
+        "meanWait": 37.78423254013124,
+        "lossProbability": 0.237,
+        "noAdmissionProbability": 0,
+        "totalAdmitted": 373577
+      }
+    },
+    {
+      "plan": {
+        "name": "Starting ticket price",
+        "price": 20
+      },
+      "summary": {
+        "runs": 1000,
+        "avgProfit": 3041.46,
+        "avgRevenue": 4841.46,
+        "avgFixedCost": 1800,
+        "avgDemand": 242.549,
+        "avgAdmitted": 242.073,
+        "avgTurnedAway": 0.476,
+        "avgCompletedBoth": 186.511,
+        "avgExperience": 82.10892582121629,
+        "meanNightExperience": 85.62905123368873,
+        "completionRate": 0.7704741958004404,
+        "meanWait": 13.562929404209484,
+        "lossProbability": 0.003,
+        "noAdmissionProbability": 0,
+        "totalAdmitted": 242073
+      }
+    },
+    {
+      "plan": {
+        "name": "High ticket price",
+        "price": 75
+      },
+      "summary": {
+        "runs": 1000,
+        "avgProfit": 46.725,
+        "avgRevenue": 1846.725,
+        "avgFixedCost": 1800,
+        "avgDemand": 24.623,
+        "avgAdmitted": 24.623,
+        "avgTurnedAway": 0,
+        "avgCompletedBoth": 24.15,
+        "avgExperience": 99.38778878940266,
+        "meanNightExperience": 99.40174464185418,
+        "completionRate": 0.9807903179953702,
+        "meanWait": 0.16115403477118506,
+        "lossProbability": 0.476,
+        "noAdmissionProbability": 0,
+        "totalAdmitted": 24623
+      }
+    }
+  ]
+}

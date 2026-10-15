@@ -12,7 +12,7 @@ Halloween Price Lab — Spatial Edition (v2)
 学生界面为英文；唯一需要作出的经营决策是 ticket price（$1–$100，整美元）。
 
 1. 输入票价并应用。先预测：游客会更多还是更少？队伍会怎样变化？
-2. 播放地图，观察 Haunted House、Pumpkin House 的活动人数和队列，
+2. 播放地图，观察 Costume House、Pumpkin House 的活动人数和队列，
    以及完成两项活动后在 Picnic Area 休息、社交的人群。
    每张脸代表一位游客：实时个人体验分 ≥90 为笑脸，<90 为哭脸。
    排队扣分随已等待时间增加；未完成活动的扣分在 20:00 关门时计入。

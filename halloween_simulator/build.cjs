@@ -16,7 +16,8 @@ const hash=require('node:crypto').createHash('sha256').update(engine).digest('he
 if(scope.HalloweenFinaleData.engineHash!==hash)throw new Error('Model changed. Run node build-finale.cjs first.');
 let html=template.replace(marker, () => '<script>'+engine+'</script>');
 html=html.replace('<link rel="stylesheet" href="finale.css">',()=>'<style>'+fs.readFileSync(path.join(directory,'finale.css'),'utf8')+'</style>');
-for(const file of ['finale-data.js','finale.js']){
+html=html.replace('<link rel="stylesheet" href="classroom.css">',()=>'<style>'+fs.readFileSync(path.join(directory,'classroom.css'),'utf8')+'</style>');
+for(const file of ['finale-data.js','finale.js','classroom.js']){
  const code=fs.readFileSync(path.join(directory,file),'utf8');
  if(/<\/script/i.test(code))throw new Error('Unsafe script terminator: '+file);
  html=html.replace('<script src="'+file+'"></script>',()=>'<script>'+code+'</script>');

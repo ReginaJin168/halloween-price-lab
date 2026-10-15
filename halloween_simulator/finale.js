@@ -59,6 +59,6 @@ function open(){opened=true;$('finale-content').hidden=false;$('finale-reveal').
  $('finale-next').onclick=()=>{selected=rows[Math.min(rows.length-1,rows.indexOf(selected)+1)];render();};
  $('finale-best').onclick=()=>{if(best){selected=best;render();}};$('finale-best').disabled=!best;
  $('finale-current').onclick=()=>{const row=rows.find(r=>r.price===currentPrice);if(row){selected=row;render();}};
- globalThis.HalloweenFinale={update(p){currentPrice=p;if(opened)render();}};
+ globalThis.HalloweenFinale={open,update(p){currentPrice=p;if(opened)render();}};
  new ResizeObserver(draw).observe($('finale-content'));
 })();

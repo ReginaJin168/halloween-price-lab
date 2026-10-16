@@ -1,0 +1,119 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Halloween Price Lab · CER 教学指南</title><style>
+:root{--ink:#2b2437;--purple:#563e78;--orange:#b75a18;--paper:#fbf8f1;--line:#ddd4e3;--muted:#655f6d;--green:#28634c}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}main{max-width:1060px;margin:auto;padding:44px 44px 70px}h1{font-size:38px;line-height:1.22;margin:10px 0 20px;letter-spacing:-1px}h2{font-size:26px;line-height:1.4;border-top:2px solid var(--line);padding-top:26px;margin:40px 0 16px}h3{font-size:19px;margin:23px 0 9px}p{margin:9px 0}a{color:var(--purple)}.eyebrow{color:var(--purple);font-size:12px;font-weight:bold;letter-spacing:2px}.lead{font-size:18px;max-width:870px}.small,.tip{font-size:14px;color:var(--muted)}.tip strong{color:var(--purple)}button,.button{border:0;border-radius:8px;padding:11px 16px;margin:5px 6px 5px 0;background:var(--purple);color:white;font-size:14px;cursor:pointer;display:inline-block;text-decoration:none}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #e7a643;outline-offset:3px}.toolbar{margin:23px 0}.callout{padding:18px 22px;border-left:4px solid var(--orange);background:#fff1df;margin:19px 0}.script{padding:17px 22px;border-left:4px solid #b882c5;background:white;margin:13px 0}.script p{margin:7px 0}.script:before{content:"SAY IT IN ENGLISH";font-size:11px;font-weight:bold;letter-spacing:1.5px;color:var(--purple)}.demo{background:#f0edf4;border-radius:10px;padding:14px 20px;margin:14px 0}.demo ol{margin:8px 0;padding-left:23px}.pill{display:inline-block;padding:2px 8px;border-radius:5px;color:var(--purple);background:#eae2f0;font-size:12px;margin-right:6px}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{background:#ede6f2;font-weight:700}.numbers td:not(:first-child),.numbers th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}.yes{color:var(--green);font-weight:700}.no{color:#9b4234;font-weight:700}ul,ol{padding-left:25px}li{margin:6px 0}.step{break-inside:avoid}details{border:1px solid #c5b7d1;border-radius:12px;margin-top:26px;padding:17px 22px;background:#fff}summary{cursor:pointer;font-size:18px;font-weight:bold;color:var(--purple)}.answer-content{padding-top:6px}.answer-content h3{font-size:18px}.worksheet{background:white;padding:38px;margin-top:45px;border:1px solid var(--line)}.worksheet h2{border:0;margin:0 0 7px;padding:0;font-size:27px}.worksheet h3{font-size:17px;margin:17px 0 7px}.worksheet p{margin:8px 0}.worksheet table{font-size:13px;table-layout:fixed}.worksheet th,.worksheet td{padding:9px 8px}.worksheet td{height:37px}.blank{display:inline-block;min-width:95px;height:23px;border-bottom:1px solid #8d8199;vertical-align:bottom}.line{height:30px;border-bottom:1px solid #b4a9be}.worksheet .small{font-size:12px}.footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:28px;padding-top:12px}@media(max-width:700px){main{padding:25px 18px 45px}h1{font-size:30px}h2{font-size:23px}.worksheet{padding:18px}.table-wrap{overflow-x:auto}table{font-size:12px}th,td{padding:8px 7px}.script{padding:13px 17px}}
+@media print{@page{size:letter;margin:.55in}body{background:white;font-size:10pt;line-height:1.45}main{max-width:none;padding:0}.no-print{display:none!important}h1{font-size:25pt}h2{font-size:17pt;margin:24px 0 10px;padding-top:15px;break-after:avoid}h3{font-size:12.5pt;break-after:avoid}.lead{font-size:11pt}.small,.tip{font-size:9pt}table{font-size:9pt}th,td{padding:6px 8px}thead{display:table-header-group}tr{break-inside:avoid}.script,.demo,.callout{break-inside:avoid;padding:10px 15px}.script{font-size:10pt}.script:before{font-size:8pt}details{break-before:page;padding:0;border:0}summary{font-size:16pt}.answer-content{display:block!important}.worksheet{break-before:page;padding:0;margin:0;border:0;font-size:10pt;line-height:1.35}.worksheet h2{font-size:22pt}.worksheet h3{font-size:11pt;margin:12px 0 5px}.worksheet .small{font-size:8.5pt}.worksheet table{font-size:9pt;margin:9px 0}.worksheet th,.worksheet td{padding:6px 8px}.worksheet td{height:30px}.worksheet p{margin:6px 0}.worksheet .line{height:25px}.worksheet .blank{height:20px}.worksheet .callout{padding:10px 13px;margin:10px 0}.footer{font-size:8pt}body.worksheet-only .teacher{display:none!important}body.worksheet-only .worksheet{break-before:auto}.print-answer-note{font-size:9pt}}
+
+.prompt{border:1px solid #cdbedc;border-radius:9px;background:#f1eaf7;padding:13px 18px;margin:14px 0}.prompt strong{color:var(--purple)}.observe{background:#edf5ef;border-left-color:#3f795d}.worksheet td{height:48px}@media print{.prompt{break-inside:avoid;padding:9px 13px}.worksheet td{height:38px}.worksheet th,.worksheet td{padding:5px 7px}.worksheet .small{font-size:8pt}.worksheet p{margin:5px 0}.worksheet h3{margin:10px 0 5px}}
+.cer-label{font-weight:800;color:#563e78}.worksheet .reason-lines .line{height:26px}.worksheet td{height:39px}@media print{.worksheet{font-size:9.5pt;line-height:1.25}.worksheet h2{font-size:20pt}.worksheet td{height:29px}.worksheet .line{height:21px}.worksheet .reason-lines .line{height:21px}.worksheet h3{margin:9px 0 4px}.worksheet p{margin:4px 0}.worksheet table{font-size:8.5pt}.worksheet .callout{padding:8px 11px;margin:8px 0}.worksheet .small{font-size:8pt}}
+.cer-label{font-weight:800;color:#563e78}.worksheet .reason-lines .line{height:26px}.worksheet td{height:39px}@media print{.worksheet{font-size:9.5pt;line-height:1.25}.worksheet h2{font-size:20pt}.worksheet td{height:29px}.worksheet .line{height:21px}.worksheet .reason-lines .line{height:21px}.worksheet h3{margin:9px 0 4px}.worksheet p{margin:4px 0}.worksheet table{font-size:8.5pt}.worksheet .callout{padding:8px 11px;margin:8px 0}.worksheet .small{font-size:8pt}}</style></head><body><main>
+<div class="teacher"><div class="eyebrow">HALLOWEEN PRICE LAB · CLAIM · EVIDENCE · REASONING</div>
+<h1>提出一个有证据、讲得通的票价建议</h1>
+<p class="lead">学生先决定：<strong>平均每 100 位入场游客，至少希望有多少人完成两项活动，为什么？</strong>然后比较票价的平均利润与完成比例，提出一个 <strong>Claim</strong>，用 <strong>Evidence</strong> 支持，并用 <strong>Reasoning</strong> 解释自己的选择。</p>
+<p>这是你个人负责的教学课段，面向 7 年级。建议 <strong>5 分钟引导 + 10 分钟 CER 决策活动</strong>，可按课堂时间缩短或延长。学生可亲自使用模拟器，也可使用教师给出的价格资料；两种方式完成同一份工作表，<strong>教师选择其中一种即可</strong>。</p>
+<div class="toolbar no-print"><a class="button" href="halloween_lesson.pptx">打开本课 PPT</a><a class="button" href="halloween_simulator.html">打开模拟器</a><a class="button" href="price_information.html">打开价格资料</a><button onclick="printGuide()">打印教师指南（含参考）</button><button onclick="printWorksheet()">仅打印英文学生工作表</button></div>
+<div class="callout"><strong>这是一道决策题，不是猜唯一答案：</strong>最低完成比例由学生自己确定并解释。先检查价格是否达到自己的最低要求，再比较利润与完成表现。不同小组可以给出不同建议，但都要用两个结果和一项替代方案作证据。</div>
+<h2>课前准备与两种取证方式</h2>
+<ol><li>使用当前 <strong>7 页 halloween_lesson.pptx</strong> 和本指南下方的新版英文 CER 工作表。旧独立 PDF 工作表未同步更新，不用于本课。</li><li>把第 5 页的价格结果留到学生写下最低要求之后展示。先解释两个指标的意思，不先给出统一门槛，也不告诉学生哪个价格“最好”。</li><li>每组 3–4 人，建议安排记录者、资料查找者、提问者与汇报者；一人可兼任。每个人先独立想一个最低完成比例，再在组内确定一个标准和理由。</li><li>选择下面一种资料方式。共同任务都是：<strong>先写标准 → 比较至少两个价格 → 提出 CER 建议</strong>。不必为了完成教学把两种方式都做一遍。</li></ol>
+<table><thead><tr><th>方式</th><th>学生如何获得证据</th><th>教师准备</th></tr></thead><tbody>
+<tr><td><strong>方式一：亲自试价</strong></td><td>打开模拟器，输入 $1–$100 的整美元价格，点击 <strong>Try this price</strong>，等地图顶部的两项平均结果都显示后，再记录平均利润和平均完成比例。可填 <strong>My prediction</strong>，也可写在纸上。</td><td>先完成一次演示，确认页面可运行。活动中不刷新，以免清除价格试验记录。</td></tr>
+<tr><td><strong>方式二：使用给定资料</strong></td><td>使用 <strong>price_information.html</strong> 或教师展示的价格表，选择至少两个价格，抄录相同的两个结果，再作决策。</td><td>先用资料页中的候选价格，按需要查看完整价格表。没有设备时可投影或打印资料；不要求学生另运行模拟。</td></tr>
+</tbody></table>
+<p class="tip">模拟器内的 <strong>View price information</strong> 链接可打开同一份资料。两种方式使用相同模型与数据，完成同样的 CER 任务。动画是帮助解释人群与队列的工具，不是必须完成的一轮额外任务。</p>
+<h2>学生只需要理解两个结果</h2>
+<table><thead><tr><th>页面名称</th><th>给 7 年级学生的解释</th><th>怎么使用</th></tr></thead><tbody>
+<tr><td><strong>Average profit</strong></td><td>票款减去已经固定的员工、材料与布置成本后，平均剩下多少钱。</td><td>比较价格能带来多少利润；不是收入总额。</td></tr>
+<tr><td><strong>Finish both activities (%)</strong></td><td>平均每 100 位入场游客，大约有多少人能在 8:00 PM 关门前完成<strong>Costume House 和南瓜屋两项活动</strong>。</td><td>用这个百分比检查自己的最低要求。只完成一项不算完成两项。</td></tr>
+</tbody></table>
+<div class="callout" lang="en"><strong>Out of every 100 admitted guests, how many finish both activities?</strong><br>For example, 80% means 80 out of 100. This is just an explanation, not a required minimum or a result for a ticket price.</div>
+<p>“入场游客”是已经进入活动的游客，不包括未能入场的人。只有在 8:00 PM 前完整结束<strong>Costume House 和南瓜屋</strong>才算完成两项；野餐不计入要求。平均比例不保证每一晚都一样，也不意味着每一小组 100 人都恰好如此。</p>
+<p>填写工作表时读地图顶部栏 <strong>Finish both activities (%)</strong> 的百分数。旁边“每 100 人约有多少人完成”的解释使用同一位小数，例如 <strong>About 77.0 out of 100 admitted guests finish both.</strong> 对应 77.0%。<strong>完成比例达到或超过自己设定的最低值，就算满足要求</strong>；没有游客、没有比例的结果不能当作达标。判断以显示的百分比为准，不把人数解释另行取整。</p>
+<p class="tip">不让学生数动画中有多少人完成，再把它当成平均完成比例。动画是一个利润接近平均值的示例；表格与地图顶部的平均结果才是本次决策的平均证据。</p>
+<h2>7 页讲解安排</h2>
+<table><thead><tr><th>页码</th><th>建议用时</th><th>学生的动作</th></tr></thead><tbody>
+<tr><td>1 · Your ticket-price decision</td><td>0:45</td><td>理解要同时考虑利润和游客能否完成活动。</td></tr>
+<tr><td>2 · Two results for each price</td><td>1:00</td><td>用自己的话解释平均利润与完成比例。</td></tr>
+<tr><td>3 · Claim, Evidence, Reasoning</td><td>0:45</td><td>区分建议、证据和解释。</td></tr>
+<tr><td>4 · What is your minimum?</td><td>0:45</td><td>看价格结果前，写最低完成比例及理由。</td></tr>
+<tr><td>5 · Information for your decision</td><td>0:30</td><td>选择至少两个价格收集证据。</td></tr>
+<tr><td>6 · Your team’s CER decision</td><td>0:45</td><td>明确活动步骤；随后开始 10 分钟小组决策。</td></tr>
+<tr><td>7 · Explain your decision</td><td>活动末 1:00</td><td>用 CER 汇报，并回应一个追问。</td></tr>
+</tbody></table>
+<p class="small">前 6 页约 4 分半，另留半分钟短回应。第 7 页用于活动最后一分钟。</p>
+<h2>逐页讲稿与参与问题</h2>
+<h3>1 · Your ticket-price decision</h3>
+<div class="script" lang="en"><p>Your team will choose a ticket price for our Halloween event. Guests want to visit both the Costume House and the pumpkin house. We want to earn money, and we want guests to have time to finish both.</p><p>Today, a strong decision needs more than a price. You will make a claim, support it with evidence, and explain your reasoning.</p></div>
+<div class="prompt"><strong>让全组短回应：</strong>“What would you want this event to do well?” 接住“赚钱”和“玩完活动”的答案，不把学生的价值选择改成教师预设数字。</div>
+<h3>2 · Two results for each price</h3>
+<div class="script" lang="en"><p>For every price, the computer gives us two results. Average profit tells us how much money is left after costs. The completion rate answers this question: Out of every one hundred admitted guests, how many finish both activities?</p><p>For example, eighty percent means eighty out of one hundred. This is just an example, not a target or a result for a price. Both means finishing the Costume House and the pumpkin house before closing. Picnic time does not count as an activity to finish.</p></div>
+<div class="prompt"><strong>检查理解：</strong>“What does eighty percent mean?” “Does finishing only one house count as both?” 要求学生指认两个指标，不要求推导统计计算。</div>
+<p class="tip">教师可选追问：价格怎样影响买票人数、队列与完成机会？票价 × 入场人数怎样影响票款？这些因果关系可以帮助理解结果，但不是学生必须逐环解释或评分的内容。</p>
+<h3>3 · Claim, Evidence, Reasoning</h3>
+<table><thead><tr><th>CER</th><th>学生要做什么</th><th>不能停在哪一步</th></tr></thead><tbody>
+<tr><td><span class="cer-label">Claim · 建议</span></td><td>清楚说出建议的票价。</td><td>只有“我选这个”还不够。</td></tr>
+<tr><td><span class="cer-label">Evidence · 证据</span></td><td>引用平均利润和完成比例，并与至少一个其他价格比较。</td><td>不能只列利润，或只说地图看起来不错。</td></tr>
+<tr><td><span class="cer-label">Reasoning · 推理</span></td><td>解释数据为什么支持选择、如何符合自己的最低要求，以及愿意接受什么取舍。</td><td>重复两个数字不等于解释它们为什么重要。</td></tr>
+</tbody></table>
+<div class="script" lang="en"><p>Your claim is the price you recommend. Your evidence includes average profit and completion, compared with another price.</p><p>Your reasoning explains why the evidence supports your choice. Why is your minimum reasonable? How does your price meet it? Why is this balance of profit and completion worth choosing?</p></div>
+<h3>4 · What is your minimum?</h3>
+<div class="prompt"><strong>先写，后看结果：</strong>“What percentage of admitted guests should finish both activities, at minimum, on average? Why is that an acceptable minimum for your team?” 每人先想，再由小组写下一个 0–100 之间的整百分数与理由。</div>
+<div class="script" lang="en"><p>Before you look at prices, decide your team's minimum completion percentage. What is the smallest share of guests finishing both activities that you would accept? Choose a whole-percent minimum from zero to one hundred. Write your number and explain why it matters to you.</p><p>A price meets your rule if its average completion rate is equal to or above your minimum. It does not promise the same result every night. Different teams can choose different goals, but everyone must explain the goal they choose.</p></div>
+<p class="tip">最低要求由学生填写，模拟器不替他们设定或判断。可以追问“这个比例表示每 100 人中有多少人玩完？为什么你们觉得可以接受？”如果学生之后修改标准，必须保留原值并说明新理由，不能为了让喜欢的价格过关而悄悄更改。</p>
+<h3>5 · Information for your decision</h3>
+<p>此时才展示价格数据。以下四个价格用于讲解；活动资料页有更多候选价格与完整表格。它们不构成推荐清单。</p>
+<table class="numbers"><thead><tr><th>票价</th><th>平均利润／晚</th><th>平均完成两项活动的比例</th></tr></thead><tbody><tr><td>$10</td><td>$1,606.65</td><td>51.7%</td></tr><tr><td>$20</td><td>$3,041.46</td><td>77.0%</td></tr><tr><td>$30</td><td>$3,004.44</td><td>94.6%</td></tr><tr><td>$50</td><td>$1,680.85</td><td>97.6%</td></tr></tbody></table><p class="small">Percentages rounded down to one decimal. 完成百分比向下保留一位小数。</p>
+<div class="script" lang="en"><p>Here is information for four prices. First check each price against the minimum your team wrote. Then compare its profit with another option.</p><p>You can get more evidence by trying prices in the simulator or by using the price information sheet. We will use the same CER worksheet either way.</p></div>
+<div class="prompt"><strong>让学生做一个判断：</strong>“Which of these prices meets your team's minimum? Point to the evidence.” 然后问“Which other price should you compare before deciding?” 不宣布全班统一赢家。</div>
+<h3>6 · Your team’s CER decision</h3>
+<div class="script" lang="en"><p>You have ten minutes. Keep your minimum and its reason at the top of your sheet. Compare at least two prices and record both results.</p><p>Make a claim, use the numbers as evidence, and explain your reasoning. If none of your prices meets your minimum, say so. You may seek more information or revise your minimum, but explain any revision honestly.</p></div>
+<div class="demo"><strong>方式一操作：</strong>输入 <strong>Ticket price</strong>，可选填 <strong>My prediction</strong>，按 <strong>Try this price</strong>；等地图顶部的两项平均结果都显示后，再记录平均利润与完成比例。需要解释人群时，播放并暂停观察，或暂停后将时间轴拖到约 <strong>7:00 PM</strong>；用 <strong>Follow one guest</strong> 跟踪一位游客。</div>
+<div class="demo"><strong>方式二操作：</strong>使用 <strong>price_information.html</strong>，先查看候选价格，再按需要查完整表。选出至少两个价格，把相同的两项数据填入工作表。无需另开模拟器补做一次。</div>
+<h3>7 · Explain your decision</h3>
+<div class="script" lang="en"><p>State your claim. Give the profit and completion evidence for your price and one alternative. Then explain how your choice fits your minimum and why the tradeoff is acceptable.</p><p>Listen to another team's decision. Did they choose a different minimum? Could that help explain why they recommend a different price?</p></div>
+<p class="tip">收尾追问：“你的最低标准为什么合理？”“这个选择如何达到标准？”“为什么这个利润与完成比例的取舍值得接受？”如时间充足，可另问价格、人数与队列的关系。评价 CER 的完整性和推理，不按是否选到某个固定价格给分。</p>
+<h2>10 分钟决策活动</h2>
+<table><thead><tr><th>时间</th><th>学生任务</th><th>教师追问</th></tr></thead><tbody>
+<tr><td>0–2 分钟</td><td>先写最低完成比例与理由，选取证方式中的至少两个价格。</td><td>“What does your minimum mean for the guests?”</td></tr>
+<tr><td>2–5 分钟</td><td>读或生成数据；记录平均利润、平均完成比例及是否满足自定标准。</td><td>“Which two numbers support that judgment?”</td></tr>
+<tr><td>5–7 分钟</td><td>比较方案、决定建议；需要时继续查一个价格。没有合格方案就明确说明。</td><td>“What would you gain or give up with the other price?”</td></tr>
+<tr><td>7–9 分钟</td><td>完成 Claim、Evidence、Reasoning；若改标准，记录原值、新值与原因。</td><td>“Why is this balance of profit and completion worth choosing?”</td></tr>
+<tr><td>9–10 分钟</td><td>用第 7 页简短分享，回应一项质疑。</td><td>“Would a different minimum change your recommendation?”</td></tr>
+</tbody></table>
+<p><strong>没有价格满足标准时：</strong>先说明“在我们查到的价格里没有合格方案”。可以查更多资料，也可以有理由地修订标准；不要直接把最低要求抹去。仅查过两个价格时，不能声称全部价格都无解。</p>
+<h3>怎样评价学生的 CER</h3>
+<ul><li><strong>Claim：</strong>建议清楚，或清楚报告暂未找到满足标准的价格。</li><li><strong>Evidence：</strong>引用两项结果，并至少与另一票价比较；把满足标准的判断做对。</li><li><strong>Reasoning：</strong>解释自定最低比例为什么合理、选择如何满足它，以及为什么愿意接受利润与完成比例之间的取舍；不能只是重读数字。</li><li><strong>决策过程：</strong>标准在看结果前写下；有修订就说明理由。</li></ul>
+<p class="tip">可以用四点各一分作快速反馈，或只用“证据充分吗、解释连得起来吗”作口头点评。课堂不是比谁找到了唯一价格。</p>
+<details id="teacher-reference"><summary>教师专用：指标口径、边界与不同标准下的参考结果</summary><div class="answer-content">
+<p><strong>此节不发给学生。</strong>默认折叠，单独打印学生工作表不包含这里。以下用于核对，不作为学生必须推导的知识。</p>
+<h3>平均利润与完成比例的统计口径</h3>
+<p>固定 <code>classroom-2026</code> 的同一组 1,000 晚。平均利润是每晚利润的等权平均。平均完成比例是<strong>所有夜晚完成两项活动的入场游客总数 ÷ 所有入场游客总数</strong>；每位游客等权，不能先平均每晚的百分比再等权平均夜晚。两项活动需在 8:00 PM 关门前完成；野餐区不计入这个完成标准。</p>
+<p>最低标准按未舍入比例判断 <strong>完成比例 ≥ 学生最低比例</strong>。零入场时比例为空（—），不能当作百分之百完成，也不能算通过。有入场者但无人完成两项时，0% 是有效比例。课堂把百分比解释为平均每 100 位入场游客中的完成者人数；决策以完成比例数据为准，平均达标不保证每晚达到相同比例。</p>
+<p>学生界面、价格资料与课件统一把百分比向下保留一位小数，并注明“Percentages rounded down to one decimal.”。学生使用整百分数的最低要求时，显示值是否达到门槛与未舍入数据的判断一致。教师参考计算仍使用原始比例。每 100 人的解释使用同一显示值，不额外四舍五入为整数：例如 68.9% 仍低于 69% 的最低要求，不能因为口头说“约 69 人”而算通过。</p>
+<h3>动画与平均证据</h3>
+<p>动画仍选择该票价下利润最接近平均利润的一条真实模拟记录，并列时选择较早编号。它没有按完成比例选例，所以动画里一晚的完成比例不能代替平均完成比例。学生的 Evidence 应来自地图顶部的平均结果或资料表；动画帮助解释为什么人多时可能形成队列。</p>
+<h3>假设标准的参考例子：不是学生预设</h3>
+<p>以下只演示“不同最低要求可能改变建议”。它们不是推荐门槛，也不是学生作业答案。学生可提出其他标准，并说明理由。</p>
+<table class="numbers"><thead><tr><th>教师假设最低比例</th><th>该条件下参考价格</th><th>平均利润／晚</th><th>实际完成比例</th></tr></thead><tbody><tr><td>70%</td><td>$24</td><td>$3,129.05</td><td>86.498975%</td></tr><tr><td>90%</td><td>$26</td><td>$3,117.82</td><td>90.004600%</td></tr><tr><td>95%</td><td>$31</td><td>$2,964.92</td><td>95.430917%</td></tr></tbody></table>
+<p>这里的“参考价格”是在该假设门槛下，完整扫描 $1–$100 中平均利润最高的价格。课堂只要求学生比较自己的资料并建立 CER，不要求证明全局最高点。即使满足同一门槛，学生也可以解释为什么愿意用部分利润换取更多完成活动的游客。</p>
+<p>当前完整资料中最高完成比例约为 <strong>98.4%</strong>，因此有些很高的最低要求可能没有价格满足。正确做法是报告无合格方案或给出有理由的修订，不制造“最佳”答案。</p>
+<h3>固定规则备查</h3>
+<p>8 位员工；一晚累计最多 400 位付费入场者；Costume House 同时 20 人、南瓜屋同时 24 人。6:00 PM 开始，7:30 PM 停止新到者，8:00 PM 两项活动关闭，8:30 PM 结束野餐停留。每晚成本 $1,800：人工 $600、南瓜材料 $800、布置清理 $400。票价 × 入场人数 − 成本 = 利润。队列先到先服务；未完成活动不退款。</p>
+<p>地图、需求、活动时长与费用均为教学假设，不是真实公园预测。完整定义见 <a href="halloween_simulator/model_notes.md">model_notes.md</a>。</p>
+</div></details>
+<p class="footer">当前课段使用本 CER 指南、7 页课件及 price_information.html。旧独立工作表 PDF 与历史数学 PDF/DOCX/LaTeX 未同步更新；请打印下方新版工作表。</p>
+</div>
+<section class="worksheet" lang="en"><div class="eyebrow">HALLOWEEN PRICE LAB · CLAIM · EVIDENCE · REASONING</div><h2>Make a ticket-price decision.</h2>
+<p><strong>Team:</strong> <span class="blank" style="width:43%"></span> <strong>Date:</strong> <span class="blank" style="width:20%"></span></p>
+<h3>1. Set your minimum before looking at prices</h3>
+<p>Our minimum average completion rate is <span class="blank" style="min-width:65px"></span>%. <span class="small">Use a whole percent from 0 to 100.</span></p>
+<p class="small">Out of every 100 admitted guests, how many finish both activities? The average does not promise the same result every night.</p>
+<p>We chose this minimum because:</p><div class="line"></div>
+<h3>2. Complete the table and compare prices</h3>
+<p class="small">Results for $10, $20, and $50 are provided. Predict a promising price, then use the simulator to fill the five blank rows. Record both averages. Check whether each completion percentage meets your minimum; equal to the minimum counts.</p>
+<table><thead><tr><th style="width:16%">Ticket price</th><th style="width:28%">Average profit</th><th style="width:28%">Finish both<br>activities (%)</th><th style="width:28%">Meets our minimum?</th></tr></thead><tbody><tr data-price="10"><th scope="row">$10</th><td>$1,606.65</td><td>51.7%</td><td>Yes / No</td></tr><tr data-price="15"><th scope="row">$15</th><td></td><td></td><td>Yes / No</td></tr><tr data-price="20"><th scope="row">$20</th><td>$3,041.46</td><td>77.0%</td><td>Yes / No</td></tr><tr data-price="25"><th scope="row">$25</th><td></td><td></td><td>Yes / No</td></tr><tr data-price="30"><th scope="row">$30</th><td></td><td></td><td>Yes / No</td></tr><tr data-price="35"><th scope="row">$35</th><td></td><td></td><td>Yes / No</td></tr><tr data-price="40"><th scope="row">$40</th><td></td><td></td><td>Yes / No</td></tr><tr data-price="50"><th scope="row">$50</th><td>$1,680.85</td><td>97.6%</td><td>Yes / No</td></tr></tbody></table>
+<h3>3. Make your CER decision</h3>
+<p><strong>Claim:</strong> We recommend a $<span class="blank" style="min-width:65px"></span> ticket. / We have not found a price that meets our minimum.</p>
+<p><strong>Evidence:</strong> A $<span class="blank" style="min-width:45px"></span> ticket gives $<span class="blank" style="min-width:65px"></span> average profit and <span class="blank" style="min-width:45px"></span>% completion.<br>A $<span class="blank" style="min-width:45px"></span> ticket gives $<span class="blank" style="min-width:65px"></span> average profit and <span class="blank" style="min-width:45px"></span>% completion.</p>
+<p><strong>Reasoning:</strong> Explain why your minimum is reasonable, how your choice meets it, and why the balance of profit and completion is worth choosing. Do more than repeat the numbers.</p>
+<div class="reason-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+<p class="small"><strong>If you revised your minimum:</strong> From ____% to ____%. Explain why; do not change it silently.</p><div class="line"></div>
+<p class="small">Profit = ticket income − fixed costs. Completion means finishing Costume House AND Pumpkin House by closing; picnic does not count.<br>Percentages are rounded down to one decimal. Different goals can support different recommendations.</p>
+</section></main><script>let printedDetails=[];function finishPrint(){document.body.classList.remove('worksheet-only');for(const d of printedDetails)d.open=false;printedDetails=[]}function printGuide(){document.body.classList.remove('worksheet-only');printedDetails=[...document.querySelectorAll('details:not([open])')];for(const d of printedDetails)d.open=true;window.print()}function printWorksheet(){document.body.classList.add('worksheet-only');window.print()}window.addEventListener('afterprint',finishPrint);</script></body></html>

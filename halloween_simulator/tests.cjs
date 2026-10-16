@@ -36,15 +36,17 @@ test('same seed and night replay exactly without mutating candidate data', () =>
     sim.simulateScenario(25, b, { trace: true }));
 });
 
-test('zero attendance preserves fixed costs and reports unavailable guest averages', () => {
+test('zero attendance preserves fixed costs and an empty animation', () => {
   const r = sim.simulateScenario(25, scenario([]), { trace: true });
   assert.equal(r.demand, 0); assert.equal(r.admitted, 0); assert.equal(r.exited, 0);
   assert.equal(r.revenue, 0); near(r.profit, -r.fixedCost);
-  assert.equal(r.experience, null); assert.equal(r.meanWait, null); assert.equal(r.completionRate, null);
-  assert.equal(r.completedBoth, 0); assert.deepEqual(r.visitors, []);
+  assert.equal(r.completedBoth, 0); assert.equal(r.completionRate, null);
+  assert.deepEqual(r.visitors, []);
+  assert.deepEqual(sim.stateAt(r, 30).guests, []);
   const summary = sim.summarize([r]);
-  assert.equal(summary.avgExperience, null); assert.equal(summary.meanNightExperience, null);
-  assert.equal(summary.meanWait, null); assert.equal(summary.completionRate, null);
+  near(summary.avgProfit, -1800); assert.equal(summary.avgAdmitted, 0);
+  assert.equal(summary.totalCompletedBoth, 0); assert.equal(summary.avgCompletionRate, null);
+  assert.equal(summary.lossProbability, 1); assert.equal(summary.noAdmissionProbability, 1);
 });
 
 test('willingness to pay nests potential demand across all classroom prices', () => {
@@ -71,19 +73,15 @@ test('trace-free simulations reproduce every nightly scalar result exactly', () 
   }
 });
 
-test('summaries weight individual visitors and separately average nonempty nights', () => {
+test('profit and attendance summaries weight every night equally, including empty nights', () => {
   const empty = sim.simulateScenario(25, scenario([]), { trace: false });
   const quiet = sim.simulateScenario(25, scenario([candidate(0)]), { trace: false });
   const crowded = sim.simulateNight(1, { seed: 'weighted-summary', index: 4, trace: false });
-  const rows = [empty, quiet, crowded], populated = rows.filter(r => r.admitted > 0);
+  const rows = [empty, quiet, crowded];
   const total = sum(rows.map(r => r.admitted)), summary = sim.summarize(rows);
   assert.equal(summary.runs, 3);
   near(summary.avgProfit, sum(rows.map(r => r.profit)) / 3);
   near(summary.avgAdmitted, total / 3);
-  near(summary.avgExperience, sum(populated.map(r => r.experience * r.admitted)) / total);
-  near(summary.meanNightExperience, sum(populated.map(r => r.experience)) / populated.length);
-  near(summary.meanWait, sum(populated.map(r => r.meanWait * r.admitted)) / total);
-  near(summary.completionRate, sum(rows.map(r => r.completedBoth)) / total);
   near(summary.lossProbability, rows.filter(r => r.profit < 0).length / 3);
 });
 
@@ -101,10 +99,10 @@ test('hand-calculated one-seat FIFO preserves service duration and total waiting
     near(pumpkin.start, haunted.end + secondWalk); near(pumpkin.end, pumpkin.start + 1);
     near(v.waitMinutes, 2 * i); near(v.totalWait, 2 * i);
     near(v.departure, pumpkin.end + picnicWalk + 10 + exitWalk);
-    near(v.experience, 100 - 0.8 * 2 * i);
     assert.deepEqual(v.completedActivities, ['haunted', 'pumpkin']);
   });
-  assert.equal(r.completedBoth, 3); near(r.meanWait, 2); near(r.experience, 98.4);
+  assert.equal(r.visitors.filter(v => v.completed).length, 3);
+  near(sum(r.visitors.map(v => v.waitMinutes)) / r.admitted, 2);
   near(r.revenue, 60); near(r.profit, 60 - 1800);
 });
 
@@ -113,7 +111,7 @@ test('a duration that fits exactly at activity closing earns completion credit',
   const r = sim.simulateScenario(20, scenario([candidate(0, { hauntedMinutes: 120 - walk })]), { trace: true });
   const v = r.visitors[0], service = v.segments.find(s => s.kind === 'activity');
   near(service.end, 120); assert.deepEqual(v.completedActivities, ['haunted']);
-  assert.equal(v.completed, false); near(v.experience, 75);
+  assert.equal(v.completed, false);
   assert.ok(!v.segments.some(s => s.kind === 'picnic'));
 });
 
@@ -129,10 +127,9 @@ test('late FIFO head cannot be overtaken; closing records wait and incompletion'
     const queue = v.segments.find(s => s.kind === 'queue');
     near(queue.start, queueArrival); near(queue.end, 120);
     near(v.waitMinutes, 120 - queueArrival);
-    near(v.experience, Math.max(0, 50 - 0.8 * (120 - queueArrival)));
     assert.equal(v.segments.at(-1).to, 'exit');
   }
-  assert.equal(r.completedBoth, 0); assert.equal(r.completionRate, 0); assert.equal(r.exited, 2);
+  assert.ok(r.visitors.every(v => !v.completed)); assert.equal(r.exited, 2);
 });
 
 test('picnic has no seat cap and requires two fully completed activities', () => {
@@ -140,7 +137,7 @@ test('picnic has no seat cap and requires two fully completed activities', () =>
     hauntedMinutes: 0.1, pumpkinMinutes: 0.1, picnicMinutes: 100
   }));
   const r = sim.simulateScenario(20, scenario(guests), { trace: true });
-  assert.equal(r.completedBoth, 60);
+  assert.equal(r.visitors.filter(v => v.completed).length, 60);
   const state = sim.stateAt(r, 30);
   assert.equal(state.counts.picnic.inside, 60);
   assert.ok(state.counts.picnic.inside > sim.defaultConfig.hauntedCapacity);
@@ -200,8 +197,6 @@ function checkRoute(v, config) {
   }
   assert.equal(location, 'exit'); near(time, v.departure); near(wait, v.waitMinutes);
   assert.deepEqual(completed, v.completedActivities); assert.equal(v.completed, completed.length === 2);
-  near(v.experience, Math.max(0, 100 - config.waitPenaltyPerMinute * wait -
-    config.unfinishedActivityPenalty * (2 - completed.length)));
 }
 
 test('crowded seeded nights conserve guests, capacities, routes and cash flow', () => {
@@ -211,14 +206,15 @@ test('crowded seeded nights conserve guests, capacities, routes and cash flow', 
     const r = sim.simulateNight(1, { seed: 'spatial-stress', index, trace: true });
     assert.equal(r.demand, r.admitted + r.turnedAway);
     assert.equal(r.admitted, r.visitors.length); assert.equal(r.exited, r.admitted);
+    assert.equal(r.completedBoth, r.visitors.filter(v => v.completedActivities.length === 2).length);
+    near(r.completionRate, r.completedBoth / r.admitted);
     assert.ok(r.admitted <= config.maxAdmissions);
     near(r.revenue, r.price * r.admitted); near(r.fixedCost, sum(Object.values(config.costs)));
     near(r.profit, r.revenue - r.fixedCost);
-    assert.equal(r.completedBoth, r.visitors.filter(v => v.completedActivities.length === 2).length);
-    if (r.completedBoth < r.admitted) incompleteNights++;
+    if (r.visitors.some(v => !v.completed)) incompleteNights++;
     for (const v of r.visitors) {
       checkRoute(v, config);
-      assert.ok(Number.isFinite(v.departure)); assert.ok(v.experience >= 0 && v.experience <= 100);
+      assert.ok(Number.isFinite(v.departure));
       if (v.waitMinutes > 0) queuedGuests++;
     }
     for (const location of ['haunted', 'pumpkin']) checkActivityCapacity(r.visitors, location, config[location + 'Capacity']);
@@ -272,95 +268,69 @@ test('invalid capacities, costs, candidate IDs and timings are rejected', () => 
   assert.throws(() => sim.summarize([]));
 });
 
-test('live experience counts only elapsed individual waiting and cries strictly below 90', () => {
-  const r = sim.simulateScenario(20, scenario([
-    candidate(0, { hauntedMinutes: 20 }), candidate(1)
-  ]), { trace: true, config: { hauntedCapacity: 1, pumpkinCapacity: 1 } });
-  const guest = r.visitors[1], queue = guest.segments.find(s => s.kind === 'queue');
-  assert.ok(queue.end - queue.start > 12.5);
-  assert.equal(sim.visitorExperienceAt(guest, guest.arrival - 1), null);
-  near(sim.visitorExperienceAt(guest, guest.arrival), 100);
-  near(sim.visitorExperienceAt(guest, queue.start), 100);
-  near(sim.visitorExperienceAt(guest, queue.start + 5), 96);
-  const boundary = sim.stateAt(r, queue.start + 12.5).guests.find(g => g.id === guest.id);
-  assert.equal(boundary.experience, 90); assert.equal(boundary.expression, 'smile');
-  const later = sim.stateAt(r, queue.start + 12.5001);
-  const crying = later.guests.find(g => g.id === guest.id);
-  assert.ok(crying.experience < 90); assert.equal(crying.expression, 'cry');
-  const other = later.guests.find(g => g.id === 0);
-  assert.equal(other.experience, 100); assert.equal(other.expression, 'smile');
-  assert.throws(() => sim.visitorExperienceAt({ arrival: 0 }, 0));
-  assert.throws(() => sim.visitorExperienceAt(guest, NaN));
-});
-
-test('unfinished activities reduce live experience only at closing, including exact finishes', () => {
-  const walk = sim.walkMinutes('entrance', 'haunted', 80);
-  const r = sim.simulateScenario(20, scenario([
-    candidate(0, { hauntedMinutes: 120 - walk })
-  ]), { trace: true });
-  const guest = r.visitors[0];
-  near(sim.visitorExperienceAt(guest, 119.999), 100);
-  // The first activity ends exactly at closing; only the second is missed.
-  near(sim.visitorExperienceAt(guest, 120), 75);
-  const closing = sim.stateAt(r, 120).guests[0];
-  assert.equal(closing.expression, 'cry'); assert.equal(closing.experience, 75);
-
-  const late = sim.simulateScenario(20, scenario([
-    candidate(0, { arrival: 89, hauntedMinutes: 60 })
-  ]), { trace: true }).visitors[0];
-  const queue = late.segments.find(s => s.kind === 'queue');
-  near(sim.visitorExperienceAt(late, 119.999), 100 - 0.8 * (119.999 - queue.start));
-  near(sim.visitorExperienceAt(late, 120), 100 - 0.8 * (120 - queue.start) - 50);
-});
-
-test('live experience at and after departure equals the final per-guest score', () => {
-  const r = sim.simulateScenario(20, scenario([
-    candidate(0, { hauntedMinutes: 20 }), candidate(1),
-    candidate(2, { arrival: 89, hauntedMinutes: 60 })
-  ]), { trace: true, config: { hauntedCapacity: 1, pumpkinCapacity: 1 } });
-  assert.ok(r.visitors.some(v => v.completed));
-  assert.ok(r.visitors.some(v => !v.completed));
-  for (const guest of r.visitors) {
-    near(sim.visitorExperienceAt(guest, guest.departure), guest.experience);
-    near(sim.visitorExperienceAt(guest, guest.departure + 200), guest.experience);
-    assert.ok(!sim.stateAt(r, guest.departure).guests.some(g => g.id === guest.id));
+test('classroom replay keeps the established crowd and profit on the first three $20 nights', () => {
+  for (const [index, admitted, profit] of [[0, 177, 1740], [1, 186, 1920], [2, 400, 6200]]) {
+    const night = sim.simulateNight(20, { seed: 'classroom-2026', index, trace: true });
+    assert.equal(night.admitted, admitted); near(night.profit, profit);
+    assert.equal(sim.stateAt(night, night.endTime).exited, admitted);
   }
 });
 
-test('backward seeking restores expressions without mutating final scores, profit or summaries', () => {
-  const s = scenario([candidate(0, { hauntedMinutes: 20 }), candidate(1)]);
-  const options = { trace: true, config: { hauntedCapacity: 1, pumpkinCapacity: 1 } };
-  const r = sim.simulateScenario(20, s, options), before = JSON.stringify(r);
-  const summary = sim.summarize([r]);
-  const guest = r.visitors[1], queue = guest.segments.find(s => s.kind === 'queue');
-  const earlyTime = queue.start + 5, early = sim.stateAt(r, earlyTime);
-  assert.equal(early.guests.find(g => g.id === guest.id).expression, 'smile');
-  assert.equal(sim.stateAt(r, queue.start + 15).guests.find(g => g.id === guest.id).expression, 'cry');
-  assert.deepEqual(sim.stateAt(r, earlyTime), early);
-  assert.equal(JSON.stringify(r), before);
-  assert.deepEqual(sim.summarize([r]), summary);
-  const fast = sim.simulateScenario(20, s, { ...options, trace: false });
-  assert.deepEqual(scalarResult(r), scalarResult(fast));
-  assert.deepEqual(sim.summarize([fast]), summary);
+test('the three classroom prices preserve their established 1,000-night averages', () => {
+  const bank = Array.from({ length: 1000 }, (_, index) => sim.generateScenario('classroom-2026', index));
+  for (const [price, admitted, profit] of [[20, 242.073, 3041.46], [10, 340.665, 1606.65], [50, 69.617, 1680.85]]) {
+    const summary = sim.summarize(bank.map(night => sim.simulateScenario(price, night, { trace: false })));
+    near(summary.avgAdmitted, admitted); near(summary.avgProfit, profit);
+  }
 });
 
-test('live experience preserves the trace configuration for wait penalties and closing', () => {
-  const config = { hauntedCapacity: 1, pumpkinCapacity: 1, waitPenaltyPerMinute: 2,
-    unfinishedActivityPenalty: 10, closeMinutes: 60, admissionCloseMinutes: 30,
-    picnicCloseMinutes: 90, expressionThreshold: 80 };
-  const r = sim.simulateScenario(20, scenario([
-    candidate(0, { hauntedMinutes: 20 }), candidate(1),
-    candidate(2, { arrival: 29, hauntedMinutes: 60 })
-  ]), { trace: true, config });
-  const guest = r.visitors[1], queue = guest.segments.find(s => s.kind === 'queue');
-  near(sim.visitorExperienceAt(guest, queue.start + 5), 90);
-  const boundary = sim.stateAt(r, queue.start + 10).guests.find(g => g.id === guest.id);
-  assert.equal(boundary.experience, 80); assert.equal(boundary.expression, 'smile');
-  assert.equal(sim.stateAt(r, queue.start + 10.001).guests.find(g => g.id === guest.id).expression, 'cry');
-  const late = r.visitors[2], lateQueue = late.segments.find(s => s.kind === 'queue');
-  near(sim.visitorExperienceAt(late, 59.999), Math.max(0, 100 - 2 * (59.999 - lateQueue.start)));
-  near(sim.visitorExperienceAt(late, 60), Math.max(0, 100 - 2 * (60 - lateQueue.start) - 20));
-  for (const visitor of r.visitors) near(sim.visitorExperienceAt(visitor, visitor.departure), visitor.experience);
+test('seeking backward restores the earlier positions without changing a simulated night', () => {
+  const night = sim.simulateNight(20, { seed: 'classroom-2026', index: 2, trace: true });
+  const before = JSON.stringify(night), earlier = sim.stateAt(night, 45);
+  sim.stateAt(night, 120);
+  assert.deepEqual(sim.stateAt(night, 45), earlier);
+  assert.equal(JSON.stringify(night), before);
+});
+
+test('completion counts both finished activities and separates no, partial and full completion', () => {
+  const firstWalk = sim.walkMinutes('entrance', 'haunted', 80);
+  const secondWalk = sim.walkMinutes('haunted', 'pumpkin', 80);
+  const unfinished = candidate(2, { hauntedMinutes: 200 });
+  const onlyFirst = candidate(1, { hauntedMinutes: 120 - firstWalk });
+  const exactBoth = candidate(0, { pumpkinMinutes: 120 - firstWalk - 2 - secondWalk });
+  const sets = [
+    { guests: [unfinished], completed: 0, rate: 0 },
+    { guests: [exactBoth, onlyFirst, unfinished], completed: 1, rate: 1 / 3 },
+    { guests: [candidate(0), candidate(1)], completed: 2, rate: 1 }
+  ];
+  for (const { guests, completed, rate } of sets) {
+    const fixture = scenario(guests);
+    const traced = sim.simulateScenario(20, fixture, { trace: true });
+    const fast = sim.simulateScenario(20, fixture, { trace: false });
+    assert.equal(traced.completedBoth, completed); near(traced.completionRate, rate);
+    assert.deepEqual(scalarResult(traced), fast);
+    for (const v of traced.visitors.filter(v => v.completed)) {
+      assert.deepEqual(new Set(v.completedActivities), new Set(['haunted', 'pumpkin']));
+      assert.ok(v.segments.filter(s => s.kind === 'activity').every(s => s.end <= 120));
+    }
+  }
+  const exact = sim.simulateScenario(20, scenario([exactBoth]), { trace: true });
+  assert.equal(exact.completedBoth, 1);
+  near(exact.visitors[0].segments.filter(s => s.kind === 'activity').at(-1).end, 120);
+});
+
+test('aggregate completion counts guests across uneven nights, including an empty night', () => {
+  const rows = [
+    sim.simulateScenario(20, scenario([]), { trace: false }),
+    sim.simulateScenario(20, scenario([candidate(0)]), { trace: false }),
+    sim.simulateScenario(20, scenario([candidate(0), candidate(1, { hauntedMinutes: 200 }),
+      candidate(2, { hauntedMinutes: 200 })]), { trace: false })
+  ];
+  const summary = sim.summarize(rows);
+  assert.equal(summary.totalAdmitted, 4); assert.equal(summary.totalCompletedBoth, 2);
+  near(summary.avgCompletionRate, 0.5);
+  assert.notEqual(summary.avgCompletionRate, (rows[1].completionRate + rows[2].completionRate) / 2);
+  near(summary.avgProfit, sum(rows.map(r => r.profit)) / 3);
 });
 
 console.log(`\n${passed} behavioral tests passed.`);

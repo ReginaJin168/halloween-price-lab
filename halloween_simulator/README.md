@@ -1,7 +1,5 @@
-# Merged simulator source
+# Current simulator source
 
-This version preserves the fullscreen animation from the October 13 teaching kit and adds the final profit-and-satisfaction two-curve plot. The simulation engine is unchanged.
+The October 15 CER version uses `engine.js`, `ui-template.html`, and `build.cjs`. Run `node tests.cjs` to check the model, then `node build.cjs` to regenerate `../halloween_simulator.html`.
 
-Open `../halloween_simulator.html` for the standalone offline activity, or open `ui-template.html` with this entire folder intact.
-
-Run `node tests.cjs`, `node page-tests.cjs`, and `node finale-tests.cjs` to verify changes. Run `node build.cjs` to rebuild the standalone page. After changing the engine, first run `node build-finale.cjs` to regenerate the plot data.
+`classroom.*`, `finale.*`, `page-tests.cjs`, and `build-finale.cjs` are retained from an earlier prototype. They are not required to build the current classroom page. See [`../START_HERE.txt`](../START_HERE.txt) for the teaching flow and [`model_notes.md`](model_notes.md) for model assumptions.

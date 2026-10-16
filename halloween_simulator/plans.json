@@ -1,5 +1,5 @@
 [
-  {"name": "Low ticket price", "price": 5},
   {"name": "Starting ticket price", "price": 20},
-  {"name": "High ticket price", "price": 75}
+  {"name": "Lower ticket price", "price": 10},
+  {"name": "Higher ticket price", "price": 50}
 ]

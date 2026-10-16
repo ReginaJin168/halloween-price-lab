@@ -30,8 +30,9 @@ try {
   const runs = opt.runs === undefined ? 1000 : Number(opt.runs);
   if (!Number.isInteger(runs) || runs < 1 || runs > 100000) throw new Error('Runs must be an integer from 1 to 100000.');
   const seed = opt.seed === undefined ? 'classroom-2026' : opt.seed;
-  const result = {version: '2.0-spatial', seed, runs, plans: []};
-  const f = n => n === null ? 'n/a' : n.toFixed(2);
+  const result = {version: sim.version, seed, runs, plans: []};
+  const decimal = new Intl.NumberFormat('en-US', {useGrouping: false, minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const f = n => n === null ? 'n/a' : decimal.format(n);
   for (const plan of plans) {
     if (!plan || typeof plan !== 'object') throw new Error('Each plan must be an object containing price.');
     const obsolete = ['packs', 'checkinStaff', 'activityStaff', 'slotCaps'].filter(key => key in plan);
@@ -39,11 +40,12 @@ try {
     const results = Array.from({length: runs}, (_, index) => sim.simulateNight(plan.price, {seed, index, trace: false}));
     const summary = sim.summarize(results);
     result.plans.push({plan: {name: plan.name || '$' + plan.price + ' ticket', price: plan.price}, summary, results});
-    console.log(`${plan.name || '$' + plan.price + ' ticket'}: mean profit $${f(summary.avgProfit)}; experience ${f(summary.avgExperience)}/100; admitted ${f(summary.avgAdmitted)} per night.`);
+    const completion = summary.avgCompletionRate === null ? 'n/a' : (Math.floor(summary.avgCompletionRate * 1000) / 10).toFixed(1) + '%';
+    console.log(`${plan.name || '$' + plan.price + ' ticket'}: mean profit $${f(summary.avgProfit)}; both activities completed by ${completion} of admitted guests; admitted ${f(summary.avgAdmitted)} per night.`);
   }
   if (opt.out) fs.writeFileSync(path.resolve(opt.out), JSON.stringify(result, null, 2) + '\n');
   if (opt.csv) {
-    const fields = ['index', 'weather', 'price', 'demand', 'admitted', 'turnedAway', 'revenue', 'fixedCost', 'profit', 'experience', 'completedBoth', 'completionRate', 'meanWait'];
+    const fields = ['index', 'weather', 'price', 'demand', 'admitted', 'turnedAway', 'revenue', 'fixedCost', 'profit', 'completedBoth', 'completionRate'];
     const quote = x => '"' + String(x === null || x === undefined ? '' : x).replace(/"/g, '""') + '"';
     const rows = [['plan', ...fields]];
     for (const p of result.plans) for (const r of p.results) rows.push([p.plan.name, ...fields.map(k => r[k])]);

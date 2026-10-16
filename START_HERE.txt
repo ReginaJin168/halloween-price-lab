@@ -1,79 +1,106 @@
-Halloween Price Lab — Spatial Edition (v2)
-万圣节票价与空间客流课堂活动
+Halloween Price Lab — Claim · Evidence · Reasoning
+平均利润与完成两项活动比例 · CER决策课段（2026-10-15）
 
-【2026-10-13 合并版】
-保留最新版的全屏动画，页面最后新增 Reveal the final plot 按钮。
-双曲线：横轴票价；左轴紫色实线为平均净利润；右轴绿色虚线为平均满意度（0–100）。
-90分为平均满意度达标线，奖杯标出达标票价中利润最高者，不保证每个游客或每晚都达标。
-修改引擎后先运行 node halloween_simulator/build-finale.cjs，再运行 build.cjs。
+【当前材料】
+halloween_lesson.pptx：7页英文CER课件，附授课备注。
+teaching_guide.html：你的个人教学课段指南、英文讲稿、教师折叠参考、可打印的新CER工作表。
+halloween_simulator.html：学生可亲自输入票价取证的模拟器。
+price_information.html：教师提供价格资料时使用；含候选价格与完整表。
+Halloween_Teaching_Kit.zip：当前教学包。
+旧独立PDF工作表及历史数学PDF/DOCX/LaTeX未同步更新，不用于本课。
+新版工作表在teaching_guide.html内，用“仅打印英文学生工作表”按钮打印。
 
-【学生使用】
-双击 halloween_simulator.html，在浏览器中打开。它是独立 HTML 文件，可离线使用。
-学生界面为英文；唯一需要作出的经营决策是 ticket price（$1–$100，整美元）。
+【决策任务】
+学生先自定“平均至少有多少比例的入场游客完成两项活动”，写理由，再查看价格结果。
+最低要求使用0–100之间的整百分数，由每组决定，没有全班预设的统一门槛。
+比较至少两个价格，用CER提出建议：
+Claim：推荐哪个票价？
+Evidence：引用该价与另一价的平均利润、平均完成比例。
+Reasoning：解释证据为何支持建议，如何满足自己的标准，以及愿意接受的取舍。
+不能仅重复数字。不同标准可以产生不同建议，没有一个通用“获胜价格”。
 
-1. 输入票价并应用。先预测：游客会更多还是更少？队伍会怎样变化？
-2. 播放地图，观察 Costume House、Pumpkin House 的活动人数和队列，
-   以及完成两项活动后在 Picnic Area 休息、社交的人群。
-   每张脸代表一位游客：实时个人体验分 ≥90 为笑脸，<90 为哭脸。
-   排队扣分随已等待时间增加；未完成活动的扣分在 20:00 关门时计入。
-   点击地图右上角 Full screen 可全屏展示；按 Esc 或退出按钮返回。
-   宽屏下右侧显示人数、表情说明和当晚结果，底部保留播放、调速和进度条。
-   若浏览器不支持系统全屏，会自动展开到当前窗口。全屏切换保留播放进度。
-3. 地图下方显示该晚完整结果：利润和游客体验。它们是整晚结果，不是动画当前时刻的累计数。
-4. 最下面测试 1,000 个夜晚，比较平均利润和平均游客体验。
-5. 调整票价，继续试验。页面会保留本次打开页面期间尝试过的价格。
-   Best tested price 仅指已尝试价格中平均利润最高者，不提前公布答案。
-6. Another night 更换上方单晚演示；用于比较价格的 1,000 晚情境库保持相同。
+【两个结果的意思】
+Average profit：票款减去固定成本后，平均剩下多少钱。
+Finish both activities (%)：
+平均每100位入场游客，约有多少人能在8:00 PM前完成 Costume House 和南瓜屋两项活动。
+学生核心问题：Out of every 100 admitted guests, how many finish both activities?
+例如80%表示80/100：只是解释比例的假设例子，不是统一最低要求，也不是某个票价结果。
+两屋活动都需完整结束，只完成一项不算完成两项；野餐不计入要求。
+“入场”不包括未能入场的人。平均比例不保证每一晚相同，也不是抽取恰好100人的结果。
+页面动态解释例如“About 77.0 out of 100 admitted guests finish both.”，对应77.0%。
+完成比例 >= 学生的最低要求，算满足标准；相等也可以。没有比例不算达标。
+所有学生材料统一将百分比向下保留一位小数，标注
+“Percentages rounded down to one decimal.”。使用整百分数门槛可直接比较。
+每100人的解释保留同一位小数，不再取整；判断最低要求时用百分比。
+例如68.9%低于69%，不能因为说“约69人”就判为达标。
 
-【10 分钟课堂建议】
-0–2 分钟：观察起始票价 $20 的一晚，认识两个活动地点和排队。
-2–4 分钟：先分别尝试明显偏低和偏高的价格，说明人数、利润和体验变化。
-4–8 分钟：每次选择一个新票价，用 1,000 晚结果寻找较好的价格区间。
-8–10 分钟：汇报最佳已试价格及证据，解释利润与体验之间的取舍。
-学生句式：“Our best tested price was $__. The average profit was $__.
-The guest experience was __/100. We noticed that __.”
+【两种取证方式，教师选一种即可】
+方式一：学生亲自试价。输入Ticket price，可选填My prediction，点Try this price。
+等地图顶部的两项平均结果都显示后，再记录平均利润和完成比例；可用动画解释队列与完成机会。
+方式二：学生使用price_information.html。先看候选价格，再按需查完整表，
+抄录两项平均结果，用同一张CER工作表作决策。无设备时可投影或打印资料。
+不必两种方式都做。模拟器的View price information链接可打开资料页。
 
-【固定模型规则】
-18:00 开始；19:30 停止接待新到者；两项活动在 20:00 结束。
-鬼屋同时最多 20 人，南瓜屋同时最多 24 人，两处均按到队顺序排队。
-每人随机选择先去哪个项目，再去另一个；完成两个项目后到野餐区。
-Picnic Area 无人数上限，20:30 结束停留，游客随后步行离场。
-整个晚上最多接待 400 位付费游客；这不是园内同时人数上限。
-固定员工 8 人：入口 2、鬼屋 2、南瓜屋 3、野餐区 1。
-入口登记简化为即时完成，两个活动的容量与活动时长决定排队。
-固定成本 $1,800：人工 $600、南瓜屋全部材料 $800、场地布置清理 $400。
-不再输入或统计 supply packs，不按单个游客改变材料成本。
-利润 = 票价 × 入场人数 − 固定成本。未完成项目不退款。
-每位游客体验 = max(0, 100 − 0.8 × 排队分钟 − 25 × 未完成项目数)。
-无游客时体验显示 N/A，不制造满分。体验不直接评价票价是否昂贵。
+【建议5分钟引导 + 10分钟活动】
+1. Your ticket-price decision：介绍赚钱与完成活动这两个要考虑的结果。
+2. Two results for each price：解释平均利润，以及“每100位入场游客有多少完成两项”。
+3. Claim, Evidence, Reasoning：建议、比较证据、说明为什么。
+4. What is your minimum?：在看价格数据前，每组写整百分数最低要求及理由。
+5. Information for your decision：此时才展示价格资料，比较至少两个价格。
+6. Your team’s CER decision：说明选定的取证方式与工作表任务，开始活动。
+7. Explain your decision：用于活动最后一分钟，分享CER并接受追问。
+这是你个人负责的课段，时间为建议，可按课堂调整。
 
-步行距离和每人的步速实际参与模拟，地图动画来自同一份逐人事件记录。
-地图为虚构示意图，坐标不是实际地理资料；路线不模拟碰撞或道路拥堵。
-天气、需求、活动时长和路线偏好均为教学假设，不是实际公园预测。
-1,000 晚利润为每晚等权平均；体验为所有入场游客的平均值。
+【活动10分钟】
+0–2分钟：先定最低完成比例与理由，选至少两个价格。
+2–5分钟：生成或读取证据，记录利润、完成比例、是否满足本组要求。
+5–7分钟：比较方案，决定建议；必要时查更多价格。
+7–9分钟：写Claim、Evidence、Reasoning，说明一项取舍。
+9–10分钟：汇报并回应“为什么这个标准合理、数据如何支持建议”。
+如需修订最低要求，保留原值、新值和理由，不能为了喜欢的价格悄悄改标准。
+若已查价格均不满足，明确报告尚未找到合格方案，可继续取证或有理由地修订。
+只查过两个价格时，不能声称所有价格都无解。
 
-【教师与维护】
-halloween_simulator/model_notes.md：当前完整模型说明（含空间、时间、成本、体验定义）。
-halloween_simulator/engine.js：浏览器与命令行共用的模拟引擎。
-halloween_simulator/ui-template.html：学生界面源文件。
-halloween_simulator/build.cjs：重新生成单文件 HTML。
-halloween_simulator/tests.cjs：容量、排队、时间与结果一致性检查。
-halloween_simulator/cli.cjs：教师使用的重复模拟与导出工具。
-halloween_simulator/plans.json：仅含票价的三个示例。
-halloween_simulator/example_summary.json / example_results.csv：当前版本的示例结果。
+【第5页资料核对值】
+票价       平均利润/晚       平均完成两项活动比例
+$10        $1,606.65        51.7%
+$20        $3,041.46        77.0%
+$30        $3,004.44        94.6%
+$50        $1,680.85        97.6%
+百分比向下保留一位小数。先写标准，再展示此表；没有预先标出的优胜者。
 
-需要 Node.js 才运行以下维护命令；学生只打开 HTML 即可：
+【引导推理】
+Reasoning只需解释：最低要求为何合理，选择如何满足它，为什么利润与完成比例
+之间的取舍值得接受。不能只是再读一遍数字。
+教师可选追问价格如何影响买票人数、队列与完成机会，或票款如何扣除成本。
+这些因果关系用来帮助理解，不要求学生解释所有环节，也不作为必需评分项。
+评价建议是否清楚、两项证据是否准确、标准和取舍解释是否有说服力、修订是否说明理由。
+
+【模拟器操作要点】
+每个点代表一位游客。Follow one guest跟踪一位；暂停后将时间轴拖到约7:00 PM查看队伍。
+动画仍自动播放利润接近平均值的一个示例；这一晚的完成情况不是平均完成比例。
+Evidence请读取地图顶部的平均结果或资料表，不能只数动画里的完成者。
+价格历史保留Ticket price / Average profit / Completion rate / My prediction。
+没有自动排名或固定达标判断。最低比例写在工作表中，由学生检查。
+Full screen可放大地图；Esc或退出按钮返回。活动中不要刷新清空试验记录。
+
+【教师参考，非学生推导要求】
+同一固定情境库1,000晚。平均利润每晚等权；平均完成比例为全部已完成两项的
+入场游客总数/全部入场游客总数，按游客加权，不是各晚百分比的简单平均。
+无入场游客时比例为空（—），不能算满额完成；有人入场但无人完成时0%有效。
+最低要求针对汇总比例，不保证每一晚相同比例。门槛判断使用未舍入比例>=最低比例；
+学生材料向下保留一位小数，对整百分数门槛与原始判断一致。
+固定成本$1,800；8位员工；整晚最多400位付费入场者；Costume House 20人、南瓜屋24人同时活动。
+6:00 PM开门，7:30 PM停止新到者，8:00 PM两项活动关门。完成野餐不是本次完成指标。
+教师折叠参考中有不同假设门槛下的结果，只供核对，不作为学生预设或统一答案。
+全部地图、客流、费用与时长均为教学假设，不是真实公园预测。
+
+【维护】
+halloween_simulator/model_notes.md：模型口径与说明。
+halloween_simulator/engine.js、ui-template.html、build.cjs、tests.cjs：源文件。
+教师维护需要Node.js；课堂只打开HTML：
   node halloween_simulator/tests.cjs
   node halloween_simulator/build.cjs
-  node halloween_simulator/cli.cjs --plans halloween_simulator/plans.json --runs 1000 --seed classroom-2026
-
-【旧版材料】
-同目录的 halloween_lesson.pptx、student_worksheet.pdf、teaching_guide.html
-及中英文数学 PDF/DOCX/LaTeX 是此前的多变量活动版本，尚未改写为本版。
-请以本说明、新 HTML 和 model_notes.md 为准；不要把旧课件中的数值作为新模型结果。
-当前 Halloween_Teaching_Kit.zip 仅打包空间版本及其说明/源文件，避免混入旧版教学材料。
-原版模拟器和原始教学包均保留在项目 work/before-spatial-redesign 中。
-
-English: Set one ticket price, replay a night, and compare the same 1,000 possible nights.
-Find the highest average profit among your tested prices, then explain the visitor experience.
-All model settings are fictional classroom assumptions.
+本轮备份：work/completion-return/before/。
+模型数值核验：work/completion-return/verified-results.json（模型v3.3.0）。
+指南生成器：work/completion-return/write_guide.py。

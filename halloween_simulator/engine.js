@@ -1,4 +1,4 @@
-/* Halloween Event Lab — spatial, finite-horizon classroom simulation (v2). */
+/* Halloween Event Lab — spatial, finite-horizon classroom simulation (v3). */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
   else root.HalloweenSim = factory();
@@ -32,7 +32,6 @@
     pumpkinMean: 10, pumpkinShape: 9,
     picnicMean: 18, picnicShape: 4,
     walkingSpeed: 80, walkingSpeedMinFactor: 0.8, walkingSpeedMaxFactor: 1.2,
-    waitPenaltyPerMinute: 0.8, unfinishedActivityPenalty: 25, expressionThreshold: 90,
     map: {
       width: 1000, height: 600,
       nodes: {
@@ -68,10 +67,10 @@
     for (const key of ['maxAdmissions', 'hauntedCapacity', 'pumpkinCapacity']) {
       if (!Number.isInteger(c[key]) || c[key] < 1) throw new Error('Invalid configuration: ' + key);
     }
-    for (const key of ['basePotentialVisitors', 'demandCV', 'waitPenaltyPerMinute', 'unfinishedActivityPenalty', 'expressionThreshold']) {
+    for (const key of ['basePotentialVisitors', 'demandCV']) {
       if (!Number.isFinite(c[key]) || c[key] < 0) throw new Error('Invalid configuration: ' + key);
     }
-    if (c.expressionThreshold > 100 || c.minPrice > c.maxPrice || c.defaultPrice < c.minPrice || c.defaultPrice > c.maxPrice ||
+    if (c.minPrice > c.maxPrice || c.defaultPrice < c.minPrice || c.defaultPrice > c.maxPrice ||
         c.admissionCloseMinutes > c.closeMinutes || c.picnicCloseMinutes <= c.closeMinutes ||
         c.walkingSpeedMinFactor > c.walkingSpeedMaxFactor)
       throw new Error('Invalid configuration ranges or closing times.');
@@ -242,12 +241,7 @@
       .sort((a, b) => a.arrival - b.arrival || a.id - b.id);
     const visitors = interested.slice(0, c.maxAdmissions).map(candidate => Object.assign({}, candidate, {
       completed: false, completedActivities: [], waitMinutes: 0, totalWait: 0,
-      experience: null, departure: null, segments: trace ? [] : undefined,
-      experienceRules: trace ? {
-        closeMinutes: c.closeMinutes, waitPenaltyPerMinute: c.waitPenaltyPerMinute,
-        unfinishedActivityPenalty: c.unfinishedActivityPenalty,
-        expressionThreshold: c.expressionThreshold
-      } : undefined
+      departure: null, segments: trace ? [] : undefined
     }));
     const heap = new EventHeap();
     const sites = {
@@ -325,23 +319,17 @@
         leave(v, 'picnic', t);
       } else if (e.type === 'exit') {
         v.departure = t; v.totalWait = v.waitMinutes;
-        v.experience = Math.max(0, 100 - c.waitPenaltyPerMinute * v.waitMinutes -
-          c.unfinishedActivityPenalty * (2 - v.completedActivities.length));
         endTime = Math.max(endTime, t);
       }
     }
     const admitted = visitors.length, completedBoth = visitors.filter(v => v.completed).length;
-    const sumExperience = visitors.reduce((sum, v) => sum + v.experience, 0);
-    const sumWait = visitors.reduce((sum, v) => sum + v.waitMinutes, 0);
     const revenue = price * admitted;
     const result = {
       price, seed: String(scenario.seed), index: scenario.index, weather: scenario.weather,
       demand: interested.length, potentialDemand: interested.length, admitted,
       turnedAway: interested.length - admitted, revenue, fixedCost: c.totalFixedCost,
       profit: revenue - c.totalFixedCost,
-      experience: admitted ? sumExperience / admitted : null,
       completedBoth, completionRate: admitted ? completedBoth / admitted : null,
-      meanWait: admitted ? sumWait / admitted : null,
       endTime, exited: admitted
     };
     if (trace) result.visitors = visitors;
@@ -357,41 +345,17 @@
   function summarize(results) {
     if (!Array.isArray(results) || !results.length) throw new Error('Summarize needs at least one simulated night.');
     const runs = results.length, totalAdmitted = results.reduce((sum, r) => sum + r.admitted, 0);
+    const totalCompletedBoth = results.reduce((sum, r) => sum + r.completedBoth, 0);
     const average = key => results.reduce((sum, r) => sum + r[key], 0) / runs;
-    const nonempty = results.filter(r => r.admitted > 0);
     return {
       runs, avgProfit: average('profit'), avgRevenue: average('revenue'),
       avgFixedCost: average('fixedCost'), avgDemand: average('demand'),
       avgAdmitted: average('admitted'), avgTurnedAway: average('turnedAway'),
-      avgCompletedBoth: average('completedBoth'),
-      avgExperience: totalAdmitted ? results.reduce((sum, r) => sum + (r.experience || 0) * r.admitted, 0) / totalAdmitted : null,
-      meanNightExperience: nonempty.length ? nonempty.reduce((sum, r) => sum + r.experience, 0) / nonempty.length : null,
-      completionRate: totalAdmitted ? results.reduce((sum, r) => sum + r.completedBoth, 0) / totalAdmitted : null,
-      meanWait: totalAdmitted ? results.reduce((sum, r) => sum + (r.meanWait || 0) * r.admitted, 0) / totalAdmitted : null,
       lossProbability: results.filter(r => r.profit < 0).length / runs,
       noAdmissionProbability: results.filter(r => r.admitted === 0).length / runs,
-      totalAdmitted
+      totalAdmitted, totalCompletedBoth,
+      avgCompletionRate: totalAdmitted ? totalCompletedBoth / totalAdmitted : null
     };
-  }
-
-  // Replay is causal: only waiting that has happened counts. Unfinished
-  // activities become a lost opportunity at closing, not on first arrival.
-  // Recompute from the trace so seeking backwards restores the earlier score.
-  function visitorExperienceAt(visitor, time) {
-    if (!visitor || !Array.isArray(visitor.segments))
-      throw new Error('Live experience needs a visitor simulated with trace:true.');
-    if (!Number.isFinite(time)) throw new Error('Animation time must be finite.');
-    if (time < visitor.arrival) return null;
-    const c = visitor.experienceRules || defaultConfig;
-    let waited = 0, completed = 0;
-    for (const segment of visitor.segments) {
-      if (segment.kind === 'queue')
-        waited += Math.max(0, Math.min(time, segment.end) - segment.start);
-      if (segment.kind === 'activity' && segment.end <= time) completed++;
-    }
-    const missing = time >= c.closeMinutes ? 2 - completed : 0;
-    return Math.max(0, 100 - c.waitPenaltyPerMinute * waited -
-      c.unfinishedActivityPenalty * missing);
   }
 
   function stateAt(night, time) {
@@ -406,9 +370,7 @@
       if (v.departure <= time) { exited++; continue; }
       const s = v.segments.find(segment => segment.start <= time && segment.end > time);
       if (!s) continue;
-      const experience = visitorExperienceAt(v, time);
-      const guest = { id: v.id, kind: s.kind, location: s.location, experience,
-        expression: experience < (v.experienceRules || defaultConfig).expressionThreshold ? 'cry' : 'smile',
+      const guest = { id: v.id, kind: s.kind, location: s.location,
         from: s.from, to: s.to, progress: (time - s.start) / (s.end - s.start), slot: s.slot };
       guests.push(guest);
       if (s.kind === 'queue') counts[s.location].queue++;
@@ -422,7 +384,7 @@
     return { guests, counts, arrived, exited };
   }
 
-  return Object.freeze({ version: '2.0.1', defaultConfig, config: defaultConfig, defaultPlan,
+  return Object.freeze({ version: '3.3.0', defaultConfig, config: defaultConfig, defaultPlan,
     validatePrice, resolveConfig, generateScenario, simulateScenario, simulateNight,
-    summarize, stateAt, visitorExperienceAt, distance, walkMinutes });
+    summarize, stateAt, distance, walkMinutes });
 });

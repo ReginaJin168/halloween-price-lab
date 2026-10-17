@@ -370,7 +370,19 @@
       if (v.departure <= time) { exited++; continue; }
       const s = v.segments.find(segment => segment.start <= time && segment.end > time);
       if (!s) continue;
-      const guest = { id: v.id, kind: s.kind, location: s.location,
+      // Expressions are replay-only feedback: long waits and unfinished visits
+      // change the face, without changing profit or completion calculations.
+      let waited = 0, completed = 0;
+      for (const segment of v.segments) {
+        if (segment.kind === 'queue')
+          waited += Math.max(0, Math.min(time, segment.end) - segment.start);
+        if (segment.kind === 'activity' && segment.end <= time) completed++;
+      }
+      const missed = time >= defaultConfig.closeMinutes ? Math.max(0, 2 - completed) : 0;
+      // A face is a simple classroom cue, not a displayed satisfaction score.
+      // Eight cumulative minutes in line makes the effect visible during replay.
+      const expression = waited >= 8 || missed > 0 ? 'cry' : 'smile';
+      const guest = { id: v.id, kind: s.kind, location: s.location, expression,
         from: s.from, to: s.to, progress: (time - s.start) / (s.end - s.start), slot: s.slot };
       guests.push(guest);
       if (s.kind === 'queue') counts[s.location].queue++;

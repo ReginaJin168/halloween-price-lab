@@ -10,5 +10,5 @@ const marker = '/* ENGINE_PLACEHOLDER */';
 if (template.split(marker).length !== 2) throw new Error('Expected exactly one engine placeholder.');
 if (/<\/script/i.test(engine)) throw new Error('Engine contains an unsafe HTML script terminator.');
 const output = path.resolve(directory, '..', 'halloween_simulator.html');
-fs.writeFileSync(output, template.replace(marker, () => engine));
+fs.writeFileSync(output, template.replace('<script src="engine.js"></script>\n', '').replace(marker, () => engine));
 console.log('Built offline classroom simulator: ' + output);

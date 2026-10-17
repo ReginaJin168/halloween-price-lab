@@ -253,6 +253,25 @@ test('state interpolation uses the same recorded movements as the simulation', (
   assert.throws(() => sim.stateAt(sim.simulateNight(20, { trace: false }), 10));
 });
 
+test('faces react to long waits and rewind without changing the night', () => {
+  const night = { visitors: [{ id: 0, arrival: 0, departure: 30, segments: [
+    { kind: 'queue', location: 'haunted', start: 0, end: 20, slot: 0 },
+    { kind: 'walk', location: 'haunted', from: 'haunted', to: 'exit', start: 20, end: 30 }
+  ] }] };
+  const before = JSON.stringify(night);
+  assert.equal(sim.stateAt(night, 5).guests[0].expression, 'smile');
+  assert.equal(sim.stateAt(night, 9).guests[0].expression, 'cry');
+  assert.equal(sim.stateAt(night, 5).guests[0].expression, 'smile');
+  assert.equal(JSON.stringify(night), before);
+});
+
+test('the classroom $20 replay visibly contains both expressions by 7:49 PM', () => {
+  const night = sim.simulateNight(20, { seed: 'classroom-2026', index: 585, trace: true });
+  const faces = sim.stateAt(night, 109).guests.map(guest => guest.expression);
+  assert.ok(faces.includes('smile'));
+  assert.ok(faces.includes('cry'));
+});
+
 test('invalid capacities, costs, candidate IDs and timings are rejected', () => {
   for (const config of [
     { hauntedCapacity: 0 }, { pumpkinCapacity: 1.5 }, { maxAdmissions: -1 },
